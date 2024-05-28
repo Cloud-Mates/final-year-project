@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 
 
-const pods = ({ config }) => {
+const components = ({ config }) => {
 
   const [fetchstatus, setfetchstatus] = useState(0);
   const [result, setresult] = useState("")
@@ -14,7 +14,7 @@ const pods = ({ config }) => {
       setfetchstatus(3);
     }
 
-    const testData = await fetch(`http://localhost:4000/api/k8s/pods`,
+    const testData = await fetch(`http://localhost:4000/api/k8s/componentStatus`,
       {
         method: 'POST',
         body: JSON.stringify(config),
@@ -57,4 +57,4 @@ const pods = ({ config }) => {
   )
 }
 
-export default pods
+export default components

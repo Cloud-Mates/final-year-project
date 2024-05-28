@@ -9,6 +9,7 @@ import Namespace from '@/app/_pages/namespace';
 import Nodes from '@/app/_pages/nodes';
 import Pods from '@/app/_pages/pods';
 import Services from '@/app/_pages/services';
+import Components from '@/app/_pages/componentstatus';
 
 const page = ({ params }) => {
   const [configJSON, setconfigJSON] = useState("")
@@ -57,6 +58,11 @@ const page = ({ params }) => {
     case "services":
 
       return <Services config={configJSON} />
+      break;
+
+    case "component-status":
+
+      return <Components config={configJSON} />
       break;
 
     default:
