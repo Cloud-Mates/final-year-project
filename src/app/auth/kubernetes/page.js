@@ -62,19 +62,23 @@ const page = () => {
 
     const chkConn = async () => {
         setconnchecked(3)
-        const testData = await fetch(`http://localhost:4000/api/k8s/test`,
-            {
-                method: 'POST',
-                body: JSON.stringify(configJSON),
-                headers: { 'Content-Type': 'application/json', passkey: "7f2f3bc4c1bce93af91d6874a774f1573d8e133218735f63b43e30fecb36c58b" }
-            },
-            { cache: 'no-store' });
-        // console.log(testData);
-        // console.log(await testData.text());
-        if (testData?.status == 200) {
-            return setconnchecked(1)
-        } else {
-            return setconnchecked(2)
+        try {
+            const testData = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/k8s/test`,
+                {
+                    method: 'POST',
+                    body: JSON.stringify(configJSON),
+                    headers: { 'Content-Type': 'application/json', passkey: process.env.NEXT_PUBLIC_PASSKEY },
+                },
+                { cache: 'no-store' });
+            // console.log(testData);
+            // console.log(await testData.text());
+            if (testData?.status == 200) {
+                return setconnchecked(1);
+            } else {
+                return setconnchecked(2);
+            }
+        } catch (error) {
+            return setconnchecked(2);
         }
     }
 

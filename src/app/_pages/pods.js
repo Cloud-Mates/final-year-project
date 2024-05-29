@@ -14,20 +14,24 @@ const pods = ({ config }) => {
       setfetchstatus(3);
     }
 
-    const testData = await fetch(`http://localhost:4000/api/k8s/pods`,
-      {
-        method: 'POST',
-        body: JSON.stringify(config),
-        headers: { 'Content-Type': 'application/json', passkey: "7f2f3bc4c1bce93af91d6874a774f1573d8e133218735f63b43e30fecb36c58b" },
-        mode: "cors"
-      },
-      { cache: 'no-store' });
+    try {
+      const testData = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/k8s/pods`,
+        {
+          method: 'POST',
+          body: JSON.stringify(config),
+          headers: { 'Content-Type': 'application/json', passkey: process.env.NEXT_PUBLIC_PASSKEY },
+          mode: "cors"
+        },
+        { cache: 'no-store' });
 
-    // console.log(testData);
-    if (testData?.status == 200) {
-      setresult(await testData.json())
-      return setfetchstatus(1);
-    } else {
+      // console.log(testData);
+      if (testData?.status == 200) {
+        setresult(await testData.json())
+        return setfetchstatus(1);
+      } else {
+        return setfetchstatus(2)
+      }
+    } catch (error) {
       return setfetchstatus(2)
     }
   }
