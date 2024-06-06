@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 
 
-const pods = ({ config }) => {
+const pods = ({ config, backendURI, backendPasskey }) => {
 
   const [fetchstatus, setfetchstatus] = useState(0);
   const [result, setresult] = useState("")
@@ -15,11 +15,11 @@ const pods = ({ config }) => {
     }
 
     try {
-      const testData = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/k8s/pods`,
+      const testData = await fetch(`${backendURI}/api/k8s/pods`,
         {
           method: 'POST',
           body: JSON.stringify(config),
-          headers: { 'Content-Type': 'application/json', passkey: process.env.NEXT_PUBLIC_PASSKEY },
+          headers: { 'Content-Type': 'application/json', passkey: backendPasskey },
           mode: "cors"
         },
         { cache: 'no-store' });

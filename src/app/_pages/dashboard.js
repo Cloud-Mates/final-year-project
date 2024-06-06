@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 
 
-const dashboard = ({ config }) => {
+const dashboard = ({ config, backendURI, backendPasskey }) => {
 
   const [fetchstatus, setfetchstatus] = useState(0);
   const [result, setresult] = useState("")
@@ -16,11 +16,11 @@ const dashboard = ({ config }) => {
     }
 
     try {
-      const testData = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/k8s/dashboard`,
+      const testData = await fetch(`${backendURI}/api/k8s/dashboard`,
         {
           method: 'POST',
           body: JSON.stringify(config),
-          headers: { 'Content-Type': 'application/json', passkey: process.env.NEXT_PUBLIC_PASSKEY },
+          headers: { 'Content-Type': 'application/json', passkey: backendPasskey },
           mode: "cors"
         },
         { cache: 'no-store' });

@@ -10,12 +10,32 @@ import Nodes from '@/app/_pages/nodes';
 import Pods from '@/app/_pages/pods';
 import Services from '@/app/_pages/services';
 import Components from '@/app/_pages/componentstatus';
+import CryptoJS from 'crypto-js';
 
 const page = ({ params }) => {
-  const [configJSON, setconfigJSON] = useState("")
+  const [configJSON, setconfigJSON] = useState("");
+  const [backendURI, setbackendURI] = useState("");
+  const [backendPasskey, setbackendPasskey] = useState("");
 
   useEffect(() => {
-    let value = localStorage.getItem(`kubernetes-${params.name[0]}`) || ""
+    let sessionpin = sessionStorage.getItem(`kubernetes-${params.name[0]}`);
+
+    let lsdata = localStorage.getItem(`kubernetes-${params.name[0]}`) || ""
+
+    try {
+      var bytes = CryptoJS.AES.decrypt(lsdata, sessionpin);
+      var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    } catch (error) {
+      alert(`unable to match pin :(`);
+      window.location.pathname = `/connection/${params.name[0]}`
+    }
+
+    // console.log(decryptedData);
+    setbackendURI(decryptedData?.backend?.uri);
+    setbackendPasskey(decryptedData?.backend?.passkey);
+
+    var value = decryptedData?.kubernetes?.configs
+
     yaml.loadAll(value, function (data) {
       if (data) {
         if (typeof data == "object") {
@@ -32,37 +52,37 @@ const page = ({ params }) => {
 
     case "dashboard":
 
-      return <Dashboard config={configJSON} />
+      return <Dashboard backendURI={backendURI} backendPasskey={backendPasskey} config={configJSON} />
       break;
 
     case "events":
 
-      return <Events config={configJSON} />
+      return <Events backendURI={backendURI} backendPasskey={backendPasskey} config={configJSON} />
       break;
 
     case "namespace":
 
-      return <Namespace config={configJSON} />
+      return <Namespace backendURI={backendURI} backendPasskey={backendPasskey} config={configJSON} />
       break;
 
     case "nodes":
 
-      return <Nodes config={configJSON} />
+      return <Nodes backendURI={backendURI} backendPasskey={backendPasskey} config={configJSON} />
       break;
 
     case "pods":
 
-      return <Pods config={configJSON} />
+      return <Pods backendURI={backendURI} backendPasskey={backendPasskey} config={configJSON} />
       break;
 
     case "services":
 
-      return <Services config={configJSON} />
+      return <Services backendURI={backendURI} backendPasskey={backendPasskey} config={configJSON} />
       break;
 
     case "component-status":
 
-      return <Components config={configJSON} />
+      return <Components backendURI={backendURI} backendPasskey={backendPasskey} config={configJSON} />
       break;
 
     default:

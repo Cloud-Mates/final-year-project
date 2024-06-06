@@ -22,13 +22,8 @@ import {
   DialogClose
 } from "@/components/ui/dialog"
 
-import { useRouter } from 'next/navigation'
-
-
 
 export default function Home() {
-
-  const router = useRouter()
 
   const [allClusters, setallClusters] = useState([]);
   const [deleteclusterName, setdeleteclusterName] = useState("")
@@ -40,16 +35,8 @@ export default function Home() {
 
     // setconfigJSON(localConfigs);
     for (let i = 0; i < localConfigs.length; i++) {
-      yaml.loadAll(Object.values(localConfigs[i])[0], function (data) {
-        if (data) {
-          if (typeof data == "object") {
-            localConfigs[i]["name"] = Object.keys(localConfigs[i])[0]?.slice(11, Object.keys(localConfigs[i])[0].length)
-            localConfigs[i]["address"] = data.clusters?.[0]?.cluster?.server?.slice(8, data.clusters?.[0]?.cluster?.server?.length)
-          } else {
-            setconfigJSON("");
-          }
-        }
-      });
+      localConfigs[i]["name"] = Object.keys(localConfigs[i])[0]?.slice(11, Object.keys(localConfigs[i])[0].length)
+      localConfigs[i]["address"] = ""
 
       setallClusters(localConfigs);
     }
@@ -59,7 +46,7 @@ export default function Home() {
 
   const deletecluster = () => {
     localStorage.removeItem(`kubernetes-${deleteclusterName}`);
-    router.push("/redirecting");
+    window.location.href = "/";
   }
 
 
@@ -98,7 +85,7 @@ export default function Home() {
               return (
                 <a
                   key={index}
-                  href={`/cluster/${item.name}/dashboard`}
+                  href={`/connection/${item.name}`}
                   className="relative rounded-lg shadow-[#5c5c5c] shadow-md px-8 py-6 transition-colors border border-neutral-600 hover:border-neutral-700 hover:bg-neutral-800/30"
                   // target="_blank"
                   rel="noopener noreferrer"
@@ -117,7 +104,7 @@ export default function Home() {
                     <DropdownMenuContent className="bg-[#4c4f51] text-slate-100 border-[#4c4f51]">
                       <DropdownMenuLabel>Options</DropdownMenuLabel>
                       <DropdownMenuSeparator className="bg-slate-500" />
-                      <DropdownMenuItem className="cursor-pointer"><DialogTrigger onClick={() => { setdeleteclusterName(item.name) }}>Delete Cluster</DialogTrigger></DropdownMenuItem>
+                      <DropdownMenuItem className="cursor-pointer"><DialogTrigger onClick={() => { setdeleteclusterName(item.name) }}>Delete Connection</DialogTrigger></DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
 
