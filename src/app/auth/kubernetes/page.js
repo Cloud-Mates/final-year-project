@@ -167,9 +167,9 @@ const page = () => {
             ssh: {
                 "host": host,
                 "port": port,
-                "username": username,
-                "privateKey": sshkey,
-                "privateKeyName": sshfilename,
+                "username": (host && port && username && sshkey && sshfilename && sshcommand) ? username : "",
+                "privateKey": (host && port && username && sshkey && sshfilename && sshcommand) ? sshkey : "",
+                "privateKeyName": (host && port && username && sshkey && sshfilename && sshcommand) ? sshfilename : "",
                 "command": sshcommand
             }
         }
