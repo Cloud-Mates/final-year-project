@@ -42,6 +42,10 @@ const page = ({ params }) => {
 
         let lsdata = localStorage.getItem(`kubernetes-${params.name[0]}`) || ""
 
+        if (!lsdata) {
+            window.location.href = "/";
+        }
+
         try {
             var bytes = CryptoJS.AES.decrypt(lsdata, sessionpin);
             var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));

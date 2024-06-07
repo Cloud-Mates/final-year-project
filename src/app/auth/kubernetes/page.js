@@ -99,10 +99,12 @@ const page = () => {
         try {
             console.log(JSON.stringify(configJSON));
             var testKubernetes;
+            const URI = backendURI[backendURI.length-1] != "/" ? backendURI : backendURI.slice(0, -1);
             if (!configJSON) {
                 testKubernetes = "";
             } else {
-                testKubernetes = await fetch(`${backendURI}/api/k8s/test`,
+                
+                testKubernetes = await fetch(`${URI}/api/k8s/test`,
                     {
                         method: 'POST',
                         body: JSON.stringify(configJSON),
@@ -111,7 +113,7 @@ const page = () => {
                     { cache: 'no-store' });
             }
 
-            const testSSH = await fetch(`${backendURI}/api/ssh/exec`,
+            const testSSH = await fetch(`${URI}/api/ssh/exec`,
                 {
                     method: 'POST',
                     body: JSON.stringify({
@@ -155,9 +157,11 @@ const page = () => {
             return alert("add pin to securely save connection details")
         }
 
+        const URI = backendURI[backendURI.length-1] != "/" ? backendURI : backendURI.slice(0, -1);
+
         const configData = {
             backend: {
-                "uri": backendURI,
+                "uri": URI,
                 "passkey": passkey
             },
             kubernetes: {
@@ -232,7 +236,7 @@ const page = () => {
 
         } catch (error) {
             alert("unable to match pin :(");
-            let inputpin = prompt(`Try again with pin for connName`);
+            let inputpin = prompt(`Try again with pin for ${connName}`);
             sessionStorage.setItem(`kubernetes-${connName}`, inputpin);
 
             try {
@@ -263,7 +267,7 @@ const page = () => {
                 window.location.pathname = "/"
             }
         }
-    }, [])
+    }, [connName])
 
 
 

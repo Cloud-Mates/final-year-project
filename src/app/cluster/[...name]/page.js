@@ -20,13 +20,17 @@ const page = ({ params }) => {
   useEffect(() => {
     let sessionpin = sessionStorage.getItem(`kubernetes-${params.name[0]}`);
 
-    let lsdata = localStorage.getItem(`kubernetes-${params.name[0]}`) || ""
+    let lsdata = localStorage.getItem(`kubernetes-${params.name[0]}`) || "";
+
+    if (!lsdata) {
+      return window.location.href = "/";
+    }
 
     try {
       var bytes = CryptoJS.AES.decrypt(lsdata, sessionpin);
       var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
     } catch (error) {
-      alert(`unable to match pin :(`);
+      // alert(`unable to match pin :(`);
       window.location.pathname = `/connection/${params.name[0]}`
     }
 
