@@ -159,7 +159,10 @@ const pods = ({ config, backendURI, backendPasskey }) => {
 
       {
         result ?
-          <div className='text-[14px] font-thin font-serif'><TableOne /></div> :
+          <div className='text-[14px] font-thin font-serif'>
+            {/* <TableOne /> */}
+            <pre>{JSON.stringify(result)}</pre>
+          </div> :
           fetchstatus == 2 ?
             <div>Cannot fetch data, please try again</div> :
             <div>please wait...</div>
