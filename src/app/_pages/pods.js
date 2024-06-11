@@ -1,3 +1,4 @@
+import Loader from '@/components/ui/Loader';
 import { UserSquare2 } from 'lucide-react';
 import React from 'react'
 import { useState, useEffect } from 'react';
@@ -65,10 +66,10 @@ const pods = ({ config, backendURI, backendPasskey }) => {
           <div className="mx-auto md:max-w-4xl">
             <div className="-m-5 flex flex-wrap">
               <div className="w-full p-5 ">
-                <div className="rounded-md border  bg-opacity-90 shadow-xl">
+                <div className="rounded-md border  bg-opacity-90 shadow-xl bg-[#7086c3] ">
                   <div className=" border-b">
                     <div className="px-9 py-1 flex items-center justify-between">
-                      <h3 className="mb-3 text-xl font-bold leading-snug ">{pod.metadata.generateName}</h3>
+                      <h3 className="text-black mb-3 text-xl font-bold leading-snug ">{pod.metadata.generateName}</h3>
                       <div className='flex justify-center items-center'>
                       <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
                               {pod.status.phase} 
@@ -142,16 +143,18 @@ const pods = ({ config, backendURI, backendPasskey }) => {
 
   return (
     <>
-      <div className='font-semibold p-6 text-center text-2xl'>Pods ({result.length})</div>
 
       {
         result ?
-          <div className='text-[14px] font-thin font-serif'>
+        <div className='text-[14px] font-thin font-serif'>
+<div className='font-semibold p-6 text-center text-2xl'>Pods ({result.length})</div>
             {result.map((i)=>(<CardComp key={i.metadata.uid} className='' pod={i}></CardComp>))}
           </div> :
           fetchstatus == 2 ?
             <div>Cannot fetch data, please try again</div> :
-            <div>please wait...</div>
+            <div className="h-screen flex justify-center items-center">
+              <Loader />
+            </div>
       }
     </>
 
