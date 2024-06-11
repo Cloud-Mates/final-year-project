@@ -1,27 +1,8 @@
+import { UserSquare2 } from 'lucide-react';
 import React from 'react'
 import { useState, useEffect } from 'react';
 
 
-const people = [
-  {
-    name: 'John Doe',
-    title: 'Front-end Developer',
-    department: 'Engineering',
-    email: 'john@devui.com',
-    role: 'Developer',
-    image:
-      'https://images.unsplash.com/photo-1628157588553-5eeea00af15c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80',
-  },
-  {
-    name: 'Jane Doe',
-    title: 'Back-end Developer',
-    department: 'Engineering',
-    email: 'jane@devui.com',
-    role: 'CTO',
-    image:
-      'https://images.unsplash.com/photo-1639149888905-fb39731f2e6c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80',
-  },
-]
 
 
 
@@ -29,6 +10,7 @@ const pods = ({ config, backendURI, backendPasskey }) => {
 
   const [fetchstatus, setfetchstatus] = useState(0);
   const [result, setresult] = useState("")
+
 
   const fetchResult = async () => {
     if (!config) {
@@ -51,105 +33,110 @@ const pods = ({ config, backendURI, backendPasskey }) => {
       if (testData?.status == 200) {
         const res = await testData.json()
         setresult(res.data.pods.items)
+        // setStatus(status)
         return setfetchstatus(1);
-      } else {
-        return setfetchstatus(2)
-      }
-    } catch (error) {
-      return setfetchstatus(2)
-    }
-  }
+        } else {
+          return setfetchstatus(2)
+          }
+          } catch (error) {
+            return setfetchstatus(2)
+            }
+            }
+            const status = result[0]?.status?.conditions[0]?.type
+            // console.log("status",status);
+
+// console.log("status",a);
+  
 
 
-  function TableOne() {
+  
+   function CardComp({pod}) {
+    const [status,setStatus] = useState('')
+    useEffect(()=>{
+      const arr = pod?.status?.conditions.filter(arr=>arr.type=='Ready')
+      // console.log("arr",arr)
+      setStatus(arr[0]?.status)
+
+    },[CardComp])
+
     return (
-      <>
-        <section className="mx-auto w-full max-w-7xl px-4 py-4">
-          
-          <div className="mt-6 flex flex-col">
-            <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                <div className="overflow-hidden border border-gray-200 md:rounded-lg">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th
-                          scope="col"
-                          className="px-4 py-3.5 text-left text-sm font-normal text-gray-700"
-                        >
-                          <span>Ip</span>
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-12 py-3.5 text-left text-sm font-normal text-gray-700"
-                        >
-                          Title
-                        </th>
-
-                        <th
-                          scope="col"
-                          className="px-4 py-3.5 text-left text-sm font-normal text-gray-700"
-                        >
-                          Status
-                        </th>
-
-                        <th
-                          scope="col"
-                          className="px-4 py-3.5 text-left text-sm font-normal text-gray-700"
-                        >
-                          Age 
-                        </th>
-                        {/* <th scope="col" className="relative px-4 py-3.5">
-                          <span className="sr-only">Edit</span>
-                        </th> */}
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200 bg-white">
-                      {result.map((pod) => (
-                        pod.status.startTime?
-                        (<tr key={Math.random()}>
-                          <td className="whitespace-nowrap px-4 py-4">
-                            <div className="flex items-center">
-                              <div className="h-10 w-10 flex-shrink-0 text-black">
-                                {pod.status?.podIP}
-                              </div>
-                             
-                            </div>
-                          </td>
-                          <td className="whitespace-nowrap px-12 py-4">
-                            <div className="text-sm text-gray-900 ">{(pod.metadata.generateName)}</div>
-                          </td>
-                          <td className="whitespace-nowrap px-4 py-4">
-                            <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                              {pod.status.phase}
+      <section className="relative w-full overflow-hidden pb-14">
+        <div className="relative  z-10 mx-auto max-w-7xl px-4">
+          <div className="mx-auto md:max-w-4xl">
+            <div className="-m-5 flex flex-wrap">
+              <div className="w-full p-5 ">
+                <div className="rounded-md border  bg-opacity-90 shadow-xl">
+                  <div className=" border-b">
+                    <div className="px-9 py-1 flex items-center justify-between">
+                      <h3 className="mb-3 text-xl font-bold leading-snug ">{pod.metadata.generateName}</h3>
+                      <div className='flex justify-center items-center'>
+                      <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+                              {pod.status.phase} 
                             </span>
-                          </td>
-                          <td className="whitespace-nowrap px-4 py-4 text-sm text-gray-700">
-                            {new Date(pod.status.startTime).getDate()}
-                          </td>
-                          
-                        </tr>):<div></div>
-                      ))}
-                    </tbody>
-                  </table>
+                      <span className="inline-flex rounded-full px-1  text-xs font-semibold leading-5">
+                              @
+                            </span>
+                      <span className="inline-flex rounded-full bg-white-100  text-xs font-semibold leading-5 text-black-800">
+                              {pod.status.podIP}
+                            </span>
+                      </div>
+                    </div>
+                    <div className='px-9 pb-2'>{pod.metadata.namespace}</div>
+                  </div>
+                  <div className="px-9  pt-4">
+                    <ul className="mb-11">
+                    <li className="mb-4 gap-2 flex items-center">
+                        Host IP:
+                        <p className="font-semibold leading-normal">
+                      {pod.status?.hostIP}
+                    </p>
+                    </li>
+                      <li className="mb-4 gap-2 flex items-center">
+                        Type: 
+                        <p className="font-semibold leading-normal"> {pod.metadata?.ownerReferences?.[0]?.kind
+                        }</p>
+                      </li>
+                      <li className="mb-4 gap-2 flex items-center">
+                        Label: 
+                        <p className="font-semibold leading-normal"> {pod.metadata?.labels?.app} </p>
+                      </li>
+                      <li className="mb-4 gap-2 flex items-center">
+                        Node:
+                        <p className="font-semibold leading-normal">{pod.spec?.nodeName}</p>
+                      </li>
+                      <li className="mb-4 gap-2 flex items-center">
+                        
+                        Ready: 
+                        <p className="font-semibold leading-normal">{status} </p>
+                      </li>
+                      <li className="flex gap-2 items-center">
+                        Images: 
+                        <p className="font-semibold leading-normal">{pod.spec?.containers?.length}</p>
+                      </li>
+                    </ul>
+                    
+                  </div>
                 </div>
               </div>
+              
             </div>
           </div>
-        </section>
-      </>
+        </div>
+      </section>
     )
   }
+  
+
 
 
   useEffect(() => {
     fetchResult();
   }, [config])
 
-  console.log(result)
+  // console.log(result)
 
 
-  console.log(fetchstatus);
+  // console.log(fetchstatus);
 
 
 
@@ -160,8 +147,7 @@ const pods = ({ config, backendURI, backendPasskey }) => {
       {
         result ?
           <div className='text-[14px] font-thin font-serif'>
-            {/* <TableOne /> */}
-            <pre>{JSON.stringify(result)}</pre>
+            {result.map((i)=>(<CardComp key={i.metadata.uid} className='' pod={i}></CardComp>))}
           </div> :
           fetchstatus == 2 ?
             <div>Cannot fetch data, please try again</div> :

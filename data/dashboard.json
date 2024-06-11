@@ -1,0 +1,139 @@
+{
+    "message": "dashboard data fatched successfully!",
+    "data": {
+       "apiServerEndpoint": "192.168.29.150:6443",
+       "componentStatus": [
+          {
+             "name": "etcd-0",
+             "conditions": [
+                {
+                   "message": "ok",
+                   "status": "True",
+                   "type": "Healthy"
+                }
+             ]
+          },
+          {
+             "name": "controller-manager",
+             "conditions": [
+                {
+                   "message": "ok",
+                   "status": "True",
+                   "type": "Healthy"
+                }
+             ]
+          },
+          {
+             "name": "scheduler",
+             "conditions": [
+                {
+                   "message": "ok",
+                   "status": "True",
+                   "type": "Healthy"
+                }
+             ]
+          }
+       ],
+       "namespace": [
+          "default",
+          "kube-node-lease",
+          "kube-public",
+          "kube-system"
+       ],
+       "events": [
+          {
+             "Normal": 135
+          },
+          {
+             "Warning": 15
+          }
+       ],
+       "nodes": [
+          {
+             "hostname": "8bitboy",
+             "addresses": [
+                "192.168.29.150",
+                "2405:201:9002:2827:8aae:ddff:fe0e:9413"
+             ],
+             "ready": "True",
+             "capacity": {
+                "cpu": "2",
+                "ephemeral-storage": "27533566955",
+                "hugepages-1Gi": "0",
+                "hugepages-2Mi": "0",
+                "memory": "7701820Ki",
+                "pods": "110"
+             },
+             "nodeInfo": {
+                "architecture": "amd64",
+                "bootID": "93915f04-1912-4ff6-9e23-85c1f2a396ae",
+                "containerRuntimeVersion": "containerd://1.7.15-k3s1",
+                "kernelVersion": "5.15.0-107-generic",
+                "kubeProxyVersion": "v1.29.4+k3s1",
+                "kubeletVersion": "v1.29.4+k3s1",
+                "machineID": "1fbb9ee46d2f4a55b27bc06c8726293d",
+                "operatingSystem": "linux",
+                "osImage": "Ubuntu 22.04.2 LTS",
+                "systemUUID": "158ef983-42be-183f-3717-88aedd0e9413"
+             }
+          },
+          {
+             "hostname": "node1-lenovo",
+             "addresses": [
+                "192.168.29.142",
+                "2405:201:9002:2827:b28a:1490:5cb0:a56a"
+             ],
+             "ready": "Unknown",
+             "capacity": {
+                "cpu": "8",
+                "ephemeral-storage": "308027741967",
+                "hugepages-1Gi": "0",
+                "hugepages-2Mi": "0",
+                "memory": "10044424Ki",
+                "pods": "110"
+             },
+             "nodeInfo": {
+                "architecture": "amd64",
+                "bootID": "bf63d38c-b2df-4009-aa05-e93aa5764077",
+                "containerRuntimeVersion": "containerd://1.7.15-k3s1",
+                "kernelVersion": "6.5.0-35-generic",
+                "kubeProxyVersion": "v1.29.4+k3s1",
+                "kubeletVersion": "v1.29.4+k3s1",
+                "machineID": "83a17cfabe6f47268e0bf81c570a1a0e",
+                "operatingSystem": "linux",
+                "osImage": "Ubuntu 23.10",
+                "systemUUID": "704f12f9-f8df-11ea-80e7-5405db6973d5"
+             }
+          }
+       ],
+       "pods": {
+          "totalPods": 30,
+          "runningPods": 17,
+          "terminatedPods": 9,
+          "failedPods": 2
+       },
+       "services": {
+          "kubernetes": "10.43.0.1: 443-> 6443",
+          "nodeapi": "10.43.6.231: 4000-> 3000",
+          "alertmanager-operated": "None: 9093-> http-web",
+          "ingress-nginx-controller": "10.43.78.111: 80-> http",
+          "ingress-nginx-controller-admission": "10.43.192.240: 443-> webhook",
+          "kube-prometheus-stack-alertmanager": "10.43.161.117: 9093-> 9093",
+          "kube-prometheus-stack-grafana": "10.43.23.133: 80-> 3000",
+          "kube-prometheus-stack-kube-state-metrics": "10.43.30.245: 8080-> 8080",
+          "kube-prometheus-stack-operator": "10.43.111.222: 443-> https",
+          "kube-prometheus-stack-prometheus": "10.43.57.12: 9090-> 9090",
+          "kube-prometheus-stack-prometheus-node-exporter": "10.43.155.64: 9100-> 9100",
+          "prometheus-operated": "None: 9090-> http-web",
+          "kube-dns": "10.43.0.10: 53-> 53",
+          "kube-prometheus-stack-coredns": "None: 9153-> 9153",
+          "kube-prometheus-stack-kube-controller-manager": "None: 10257-> 10257",
+          "kube-prometheus-stack-kube-etcd": "None: 2381-> 2381",
+          "kube-prometheus-stack-kube-proxy": "None: 10249-> 10249",
+          "kube-prometheus-stack-kube-scheduler": "None: 10259-> 10259",
+          "kube-prometheus-stack-kubelet": "None: 10250-> 10250",
+          "metrics-server": "10.43.36.161: 443-> https",
+          "traefik": "10.43.167.119: 80-> web"
+       }
+    }
+ }

@@ -13,6 +13,7 @@ import Components from '@/app/_pages/componentstatus';
 import CryptoJS from 'crypto-js';
 
 const page = ({ params }) => {
+  console.log({params});
   const [configJSON, setconfigJSON] = useState("");
   const [backendURI, setbackendURI] = useState("");
   const [backendPasskey, setbackendPasskey] = useState("");
@@ -56,37 +57,37 @@ const page = ({ params }) => {
 
     case "dashboard":
 
-      return <Dashboard backendURI={backendURI} backendPasskey={backendPasskey} config={configJSON} />
+      return <Dashboard backendURI={backendURI} backendPasskey={backendPasskey} config={configJSON} params={params}/>
       break;
 
     case "events":
 
-      return <Events backendURI={backendURI} backendPasskey={backendPasskey} config={configJSON} />
+      return <Events backendURI={backendURI} backendPasskey={backendPasskey} config={configJSON} params={params}/>
       break;
 
     case "namespace":
 
-      return <Namespace backendURI={backendURI} backendPasskey={backendPasskey} config={configJSON} />
+      return <Namespace backendURI={backendURI} backendPasskey={backendPasskey} config={configJSON} params={params}/>
       break;
 
     case "nodes":
 
-      return <Nodes backendURI={backendURI} backendPasskey={backendPasskey} config={configJSON} />
+      return <Nodes backendURI={backendURI} backendPasskey={backendPasskey} config={configJSON} params={params}/>
       break;
 
     case "pods":
 
-      return <Pods backendURI={backendURI} backendPasskey={backendPasskey} config={configJSON} />
+      return <Pods backendURI={backendURI} backendPasskey={backendPasskey} config={configJSON} params={params}/>
       break;
 
     case "services":
 
-      return <Services backendURI={backendURI} backendPasskey={backendPasskey} config={configJSON} />
+      return <Services backendURI={backendURI} backendPasskey={backendPasskey} config={configJSON} params={params}/>
       break;
 
     case "component-status":
 
-      return <Components backendURI={backendURI} backendPasskey={backendPasskey} config={configJSON} />
+      return <Components backendURI={backendURI} backendPasskey={backendPasskey} config={configJSON} params={params}/>
       break;
 
     default:
