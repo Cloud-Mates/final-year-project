@@ -62,11 +62,11 @@ const pods = ({ config, backendURI, backendPasskey }) => {
 
     return (
       <section className="relative w-full overflow-hidden pb-14">
-        <div className="relative  z-10 mx-auto max-w-7xl px-4">
+        <div className="relative  z-10 mx-auto max-w-7xl px-4 ">
           <div className="mx-auto md:max-w-4xl">
             <div className="-m-5 flex flex-wrap">
-              <div className="w-full p-5 ">
-                <div className="rounded-md border  bg-opacity-90 shadow-xl bg-[#7086c3] ">
+              <div className="w-full p-5">
+                <div className="rounded-md border  bg-opacity-90 shadow-xl bg-[#7086c3]">
                   <div className=" border-b">
                     <div className="px-9 py-1 flex items-center justify-between">
                       <h3 className="text-black mb-3 text-xl font-bold leading-snug ">{pod.metadata.generateName}</h3>
