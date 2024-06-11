@@ -1,3 +1,4 @@
+import Loader from "@/components/ui/Loader";
 import React from "react";
 import { useState, useEffect } from "react";
 
