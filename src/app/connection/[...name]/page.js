@@ -45,7 +45,7 @@ const page = ({ params }) => {
             var bytes = CryptoJS.AES.decrypt(lsdata, sessionpin);
             var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
             setdata(decryptedData);
-            console.log(decryptedData);
+            // console.log(decryptedData);
             (async function () {
                 try {
                     if (!decryptedData?.kubernetes?.configs) {
@@ -115,7 +115,7 @@ const page = ({ params }) => {
             setpinvalid(2);
         }
 
-    }, []);
+    }, [pinvalid]);
 
     const updatepin = (e) => {
         e.preventDefault()
