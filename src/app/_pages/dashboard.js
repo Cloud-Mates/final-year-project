@@ -315,7 +315,7 @@ const dashboard = ({ config, backendURI, backendPasskey, params }) => {
                 ]}
               />
               <a href={`/cluster/${param}/pods`}>
-                <button className="bg-teal-900 text-white rounded-sm p-4 hover:bg-teal-700 hover:text-gray-200 hover:shadow-lg transition duration-300">
+                <button className="bg-teal-900 text-white rounded-sm p-4 hover:bg-teal-700 hover:text-gray-200 hover:shadow-lg transition duration-300 z-50">
                   Click here for more Details
                 </button>
               </a>

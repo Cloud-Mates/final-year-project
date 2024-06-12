@@ -10,7 +10,7 @@ const data = [
 const PieChartCom = ({data}) => {
   return (
     <div className="flex justify-center items-center flex-col h-[200px] w-[200px]">
-      <ResponsiveContainer width="99%" height={300}>
+      <ResponsiveContainer width="99%" height={200}>
         <PieChart>
           <Tooltip
             contentStyle={{ background: "white", borderRadius: "5px" }}
