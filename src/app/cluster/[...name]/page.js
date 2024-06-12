@@ -13,7 +13,7 @@ import Components from '@/app/_pages/componentstatus';
 import CryptoJS from 'crypto-js';
 
 const page = ({ params }) => {
-  console.log({params});
+  // console.log({params});
   const [configJSON, setconfigJSON] = useState("");
   const [backendURI, setbackendURI] = useState("");
   const [backendPasskey, setbackendPasskey] = useState("");

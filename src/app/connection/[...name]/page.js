@@ -3,13 +3,6 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react';
 import yaml from 'js-yaml'
-import Dashboard from '@/app/_pages/dashboard';
-import Events from '@/app/_pages/events';
-import Namespace from '@/app/_pages/namespace';
-import Nodes from '@/app/_pages/nodes';
-import Pods from '@/app/_pages/pods';
-import Services from '@/app/_pages/services';
-import Components from '@/app/_pages/componentstatus';
 import CryptoJS from 'crypto-js';
 
 import {
@@ -36,6 +29,8 @@ const page = ({ params }) => {
     const [pinvalid, setpinvalid] = useState(0);
     const [pin, setpin] = useState("");
     const [deleteclusterName, setdeleteclusterName] = useState("")
+    const [k8sConnIndicator, setk8sConnIndicator] = useState(0);
+    const [sshConnIndicator, setsshConnIndicator] = useState(0);
 
     useEffect(() => {
         let sessionpin = sessionStorage.getItem(`kubernetes-${params.name[0]}`);
@@ -50,6 +45,71 @@ const page = ({ params }) => {
             var bytes = CryptoJS.AES.decrypt(lsdata, sessionpin);
             var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
             setdata(decryptedData);
+            console.log(decryptedData);
+            (async function () {
+                try {
+                    if (!decryptedData?.kubernetes?.configs) {
+                        setk8sConnIndicator(2);
+                    } else {
+                        yaml.loadAll(decryptedData?.kubernetes?.configs, async function (data) {
+                            if (data) {
+                                if (typeof data == "object") {
+                                    const testKubernetes = await fetch(
+                                        `${decryptedData?.backend?.uri}/api/k8s/test`,
+                                        {
+                                            method: "POST",
+                                            body: JSON.stringify(data),
+                                            headers: { "Content-Type": "application/json", passkey: decryptedData?.backend?.passkey },
+                                        },
+                                        { cache: "no-store" }
+                                    );
+
+                                    if (testKubernetes?.status == 200) {
+                                        setk8sConnIndicator(1);
+                                    } else {
+                                        setk8sConnIndicator(2);
+                                    }
+                                } else {
+                                    setk8sConnIndicator(2);
+                                }
+                            }
+                        });
+                    }
+                } catch (error) {
+                    console.log(error);
+                    setk8sConnIndicator(2);
+                }
+
+                try {
+                    if (!decryptedData?.ssh?.privateKey) {
+                        setsshConnIndicator(2)
+                    } else {
+                        const testSSH = await fetch(
+                            `${decryptedData?.backend?.uri}/api/ssh/exec`,
+                            {
+                                method: "POST",
+                                body: JSON.stringify({
+                                    host: decryptedData?.ssh?.host,
+                                    port: decryptedData?.ssh?.port,
+                                    username: decryptedData?.ssh?.username,
+                                    privateKey: decryptedData?.ssh?.privateKey,
+                                    command: decryptedData?.ssh?.command,
+                                }),
+                                headers: { "Content-Type": "application/json", passkey: decryptedData?.backend?.passkey },
+                            },
+                            { cache: "no-store" }
+                        );
+
+                        if (testSSH?.status == 200) {
+                            setsshConnIndicator(1);
+                        } else {
+                            setsshConnIndicator(2);
+                        }
+                    }
+                } catch (error) {
+                    setsshConnIndicator(2);
+                }
+            })();
             setpinvalid(1);
         } catch (error) {
             setpinvalid(2);
@@ -127,11 +187,13 @@ const page = ({ params }) => {
                                 <div className='relative mt-[5rem] flex flex-col max-w-[40rem] w-[90vw] mx-auto border border-black p-5 pt-20 gap-5'>
                                     {
                                         data?.kubernetes?.configs ?
-                                            <a href={`/cluster/${params.name[0]}/dashboard`} className='rounded-lg hover:bg-slate-700 bg-slate-600 shadow-sm shadow-[#cacaca] p-5 pl-2'>
-                                                <div>
-                                                    <h3>Kubernetes API</h3>
-                                                    <p>{data?.kubernetes?.url}</p>
+                                            <a href={`/cluster/${params.name[0]}/dashboard`} className='flex flex-row items-center justify-between rounded-lg hover:bg-slate-700 bg-slate-600 shadow-sm shadow-[#cacaca] p-5 pl-2'>
+                                                <div className='pl-3'>
+                                                    <h3 className='font-mono text-lg font-semibold'>Kubernetes API</h3>
+                                                    <p className='font-mono text-md'>{data?.kubernetes?.url}</p>
                                                 </div>
+
+                                                <div className={`h-5 w-2 rounded-full drop-shadow ${k8sConnIndicator == 0 ? 'bg-yellow-300 animate-pulse' : k8sConnIndicator == 1 ? 'bg-green-400' : 'bg-red-500'}`}></div>
                                             </a> :
                                             <a href={`/auth/kubernetes?edit=${params.name[0]}`} className='rounded-lg hover:bg-slate-700 bg-slate-600 shadow-sm shadow-[#cacaca] p-5 pl-2'>
                                                 add kubernetes Config
@@ -140,11 +202,13 @@ const page = ({ params }) => {
 
                                     {
                                         data?.ssh?.privateKey ?
-                                            <a href={`/ssh/${params.name[0]}`} className='rounded-lg hover:bg-slate-700 bg-slate-600 shadow-sm shadow-[#cacaca] p-5 pl-2'>
-                                                <div>
-                                                    <h3>SSH console</h3>
-                                                    <p>{data?.ssh?.host}:{data?.ssh?.port}@{data?.ssh?.username}</p>
+                                            <a href={`/ssh/${params.name[0]}`} className='flex flex-row items-center justify-between rounded-lg hover:bg-slate-700 bg-slate-600 shadow-sm shadow-[#cacaca] p-5 pl-2'>
+                                                <div className='pl-3'>
+                                                    <h3 className='font-mono text-lg font-semibold'>SSH console</h3>
+                                                    <p className='font-mono text-md'>{data?.ssh?.host}:{data?.ssh?.port}@{data?.ssh?.username}</p>
                                                 </div>
+
+                                                <div className={`h-5 w-2 rounded-full drop-shadow ${sshConnIndicator == 0 ? 'bg-yellow-300 animate-pulse' : sshConnIndicator == 1 ? 'bg-green-400' : 'bg-red-500'}`}></div>
                                             </a> :
                                             <a href={`/auth/kubernetes?edit=${params.name[0]}`} className='rounded-lg hover:bg-slate-700 bg-slate-600 shadow-sm shadow-[#cacaca] p-5 pl-2'>
                                                 Configure SSH connection

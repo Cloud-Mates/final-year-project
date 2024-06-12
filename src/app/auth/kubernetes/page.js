@@ -5,7 +5,6 @@ import { useState } from "react";
 import Editor from "@monaco-editor/react";
 import yaml from "js-yaml";
 import CryptoJS from "crypto-js";
-import { useSearchParams } from "next/navigation";
 import Loader from "@/components/ui/Loader";
 
 const page = () => {
@@ -89,7 +88,7 @@ const page = () => {
     setk8sconnchecked(3);
     setsshconnchecked(3);
     try {
-      console.log(JSON.stringify(configJSON));
+      // console.log(JSON.stringify(configJSON));
       var testKubernetes;
       const URI =
         backendURI[backendURI.length - 1] != "/"
@@ -209,10 +208,9 @@ const page = () => {
     }
   };
 
-  const searchParams = useSearchParams();
-  const connName = searchParams.get("edit");
-
   useEffect(() => {
+    const connName = window?.location?.href?.split("edit=")?.[1];
+
     if (!connName) {
       return;
     }
@@ -276,7 +274,7 @@ const page = () => {
         window.location.pathname = "/";
       }
     }
-  }, [connName]);
+  }, []);
 
   return (
     <Suspense fallback={<Loader/>}>
