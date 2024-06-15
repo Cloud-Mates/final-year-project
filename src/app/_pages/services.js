@@ -51,6 +51,9 @@ const services = ({ config, backendURI, backendPasskey }) => {
   return (
     <>
       {result ? (
+        <div>
+                      <div className='font-semibold p-6 text-center text-2xl'>Services ({result?.data?.services?.items?.length})</div>
+
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
           {result?.data?.services?.items.map((service, index) => (
             <div
@@ -96,12 +99,16 @@ const services = ({ config, backendURI, backendPasskey }) => {
                         {port.targetPort}
                       </p>
                     </div>
+                    
                   ))}
                 </div>
               </div>
             </div>
+            
           ))}
         </div>
+        </div>
+
       ) : fetchstatus == 2 ? (
         <div>Cannot fetch data, please try again</div>
       ) : (

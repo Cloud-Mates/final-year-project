@@ -50,13 +50,20 @@ const pods = ({ config, backendURI, backendPasskey }) => {
   
 
 
-  
+
+
    function CardComp({pod}) {
     const [status,setStatus] = useState('')
+    const  [colorCode,setColorCode] = useState();
     useEffect(()=>{
       const arr = pod?.status?.conditions.filter(arr=>arr.type=='Ready')
       // console.log("arr",arr)
       setStatus(arr[0]?.status)
+      
+if(pod.status.phase=='Running') setColorCode( '#94C973');
+else if(pod.status.phase=='Pending') setColorCode( '#ECF87F');
+else if(pod.status.phase=='Terminated') setColorCode( '#FF0000');
+else if(pod.status.phase=='Succeeded') setColorCode( '#8AFF8A');
 
     },[CardComp])
 
@@ -71,12 +78,12 @@ const pods = ({ config, backendURI, backendPasskey }) => {
                     <div className="px-9 py-1 flex items-center justify-between">
                       <h3 className="text-black mb-3 text-xl font-bold leading-snug ">{pod.metadata.generateName}</h3>
                       <div className='flex justify-center items-center'>
-                      <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+                      <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"style={{backgroundColor:colorCode}}>
                               {pod.status.phase} 
                             </span>
-                      <span className="inline-flex rounded-full px-1  text-xs font-semibold leading-5">
+                      {pod.status.phase==="Running"?<span className="inline-flex rounded-full px-1  text-xs font-semibold leading-5">
                               @
-                            </span>
+                            </span>:<div></div>}
                       <span className="inline-flex rounded-full bg-white-100  text-xs font-semibold leading-5 text-black-800">
                               {pod.status.podIP}
                             </span>
