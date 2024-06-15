@@ -61,7 +61,7 @@ const pods = ({ config, backendURI, backendPasskey }) => {
     },[CardComp])
 
     return (
-      <section className="relative w-full overflow-hidden pb-14">
+      <section className="relative w-full overflow-hidden pb-5">
         <div className="relative  z-10 mx-auto max-w-7xl px-4 ">
           <div className="mx-auto md:max-w-4xl">
             <div className="-m-5 flex flex-wrap">

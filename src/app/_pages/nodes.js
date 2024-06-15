@@ -14,7 +14,7 @@ function CardComp({node}) {
   // },[CardComp])
 
   return (
-    <section className="relative w-full overflow-hidden pb-14">
+    <section className="relative w-full overflow-hidden pb-6">
       <div className="relative  z-10 mx-auto max-w-7xl px-4">
         <div className="mx-auto md:max-w-4xl">
           <div className="-m-5 flex flex-wrap">

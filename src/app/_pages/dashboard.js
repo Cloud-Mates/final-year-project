@@ -119,100 +119,53 @@ const dashboard = ({ config, backendURI, backendPasskey, params }) => {
           </div>
 
           <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {/* componentStatus */}
-
-            <div className="flex flex-col gap-4 w-full justify-center items-center bg-[#8696c3] rounded-md shadow-md p-6">
-              <span className="text-2xl font-bold text-teal-900">
-                Component Status
-              </span>
-              <span className="text-green-900 font-bold">
-                Healthy Component : {healthyComponent}
-              </span>
-              <span className="text-red font-bold">
-                Unhealthy Component : {unhealthyComponent}
-              </span>
-              <span className="flex flex-col gap-4">
-                {result?.data?.componentStatus.map((component, index) => (
-                  <div
-                    key={index}
-                    className="text-white bg-[#323e61] border-slate-100 p-2 rounded-sm"
-                  >
-                    <p className="font-bold">
-                      <span className="font-semibold text-lg">Name:</span>{" "}
-                      {component.name}
-                    </p>
-                    <p className="">
-                      <span className="font-semibold text-lg">Type:</span>{" "}
-                      {component.conditions[0].type}
-                    </p>
-                  </div>
-                ))}
-              </span>
+            {/* pods */}
+            <div className="flex flex-col gap-2 w-full justify-center items-center bg-[#8696c3] rounded-md shadow-md p-4">
+              <span className="text-2xl font-bold text-teal-900">Pods</span>
+              {result?.data?.pods && (
+                <div className="text-gray-800 mb-2 text-xl">
+                  <p>
+                    <span className="font-semibold">Total Pods:</span>{" "}
+                    {result.data.pods.totalPods}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Running Pods:</span>{" "}
+                    {result.data.pods.runningPods}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Terminated Pods:</span>{" "}
+                    {result.data.pods.terminatedPods}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Failed Pods:</span>{" "}
+                    {result.data.pods.failedPods}
+                  </p>
+                </div>
+              )}
               <PieChartCom
                 data={[
                   {
-                    name: "Healthy Components",
-                    value: healthyComponent,
+                    name: "Running Pods",
+                    value: result.data.pods.runningPods,
                     color: "#00C49F",
                   },
                   {
-                    name: "Unhealthy Components",
-                    value: unhealthyComponent,
-                    color: "#FF8042",
-                  },
-                ]}
-              />
-            </div>
-
-            {/* Namespace */}
-            <div className="flex flex-col gap-2 w-full justify-center items-center bg-[#8696c3] rounded-md shadow-md p-4">
-              <span className="text-2xl font-bold text-teal-900">
-                Namespaces
-              </span>
-              <div className="w-full flex flex-col justify-center items-center">
-                {result?.data?.namespace.map((namespace, index) => (
-                  <div key={index} className="text-gray-800 mb-2">
-                    <p>
-                      <span className="font-semibold">Namespace:</span>{" "}
-                      {namespace}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* events */}
-            <div className="flex flex-col gap-2 w-full justify-center items-center bg-[#8696c3] rounded-md shadow-md p-4">
-              <span className="text-2xl font-bold text-teal-900">Events</span>
-              <div className="w-full flex flex-col justify-center items-center">
-                <div className="text-gray-800 mb-2">
-                  <div></div>
-                  <p>
-                    <span className="font-semibold">Normal</span> {normalEvent}
-                  </p>
-                </div>
-                <div className="text-gray-800 mb-2">
-                  <div></div>
-                  <p>
-                    <span className="font-semibold">warning</span>{" "}
-                    {warningEvents}
-                  </p>
-                </div>
-              </div>
-              <PieChartCom
-                data={[
-                  {
-                    name: "Normal Events",
-                    value: normalEvent,
-                    color: "#36A2EB",
+                    name: "Terminated Pods",
+                    value: result.data.pods.terminatedPods,
+                    color: "#fa0303",
                   },
                   {
-                    name: "Warning Events",
-                    value: warningEvents,
+                    name: "Failed Pods",
+                    value: result.data.pods.failedPods,
                     color: "#d94c05",
                   },
                 ]}
               />
+              <a href={`/cluster/${param}/pods`}>
+                <button className="bg-teal-900 text-white rounded-sm p-4 hover:bg-teal-700 hover:text-gray-200 hover:shadow-lg transition duration-300 z-50">
+                  Click here for more Details
+                </button>
+              </a>
             </div>
 
             {/* nodes */}
@@ -272,53 +225,84 @@ const dashboard = ({ config, backendURI, backendPasskey, params }) => {
               </a>
             </div>
 
-            {/* pods */}
-            <div className="flex flex-col gap-2 w-full justify-center items-center bg-[#8696c3] rounded-md shadow-md p-4">
-              <span className="text-2xl font-bold text-teal-900">Pods</span>
-              {result?.data?.pods && (
-                <div className="text-gray-800 mb-2 text-xl">
-                  <p>
-                    <span className="font-semibold">Total Pods:</span>{" "}
-                    {result.data.pods.totalPods}
-                  </p>
-                  <p>
-                    <span className="font-semibold">Running Pods:</span>{" "}
-                    {result.data.pods.runningPods}
-                  </p>
-                  <p>
-                    <span className="font-semibold">Terminated Pods:</span>{" "}
-                    {result.data.pods.terminatedPods}
-                  </p>
-                  <p>
-                    <span className="font-semibold">Failed Pods:</span>{" "}
-                    {result.data.pods.failedPods}
-                  </p>
-                </div>
-              )}
+            
+
+            {/* componentStatus */}
+
+            <div className="flex flex-col gap-4 w-full justify-center items-center bg-[#8696c3] rounded-md shadow-md p-6">
+              <span className="text-2xl font-bold text-teal-900">
+                Component Status
+              </span>
+              <span className="text-green-900 font-bold">
+                Healthy Component : {healthyComponent}
+              </span>
+              <span className="text-red font-bold">
+                Unhealthy Component : {unhealthyComponent}
+              </span>
+              <span className="flex flex-col gap-4">
+                {result?.data?.componentStatus.map((component, index) => (
+                  <div
+                    key={index}
+                    className="text-white bg-[#323e61] border-slate-100 p-2 rounded-sm"
+                  >
+                    <p className="font-bold">
+                      <span className="font-semibold text-lg">Name:</span>{" "}
+                      {component.name}
+                    </p>
+                    <p className="">
+                      <span className="font-semibold text-lg">Type:</span>{" "}
+                      {component.conditions[0].type}
+                    </p>
+                  </div>
+                ))}
+              </span>
               <PieChartCom
                 data={[
                   {
-                    name: "Running Pods",
-                    value: result.data.pods.runningPods,
+                    name: "Healthy Components",
+                    value: healthyComponent,
                     color: "#00C49F",
                   },
                   {
-                    name: "Terminated Pods",
-                    value: result.data.pods.terminatedPods,
-                    color: "#fa0303",
+                    name: "Unhealthy Components",
+                    value: unhealthyComponent,
+                    color: "#FF8042",
+                  },
+                ]}
+              />
+            </div>
+            {/* events */}
+            <div className="flex flex-col gap-2 w-full justify-center items-center bg-[#8696c3] rounded-md shadow-md p-4">
+              <span className="text-2xl font-bold text-teal-900">Events</span>
+              <div className="w-full flex flex-col justify-center items-center">
+                <div className="text-gray-800 mb-2">
+                  <div></div>
+                  <p>
+                    <span className="font-semibold">Normal</span> {normalEvent}
+                  </p>
+                </div>
+                <div className="text-gray-800 mb-2">
+                  <div></div>
+                  <p>
+                    <span className="font-semibold">warning</span>{" "}
+                    {warningEvents}
+                  </p>
+                </div>
+              </div>
+              <PieChartCom
+                data={[
+                  {
+                    name: "Normal Events",
+                    value: normalEvent,
+                    color: "#36A2EB",
                   },
                   {
-                    name: "Failed Pods",
-                    value: result.data.pods.failedPods,
+                    name: "Warning Events",
+                    value: warningEvents,
                     color: "#d94c05",
                   },
                 ]}
               />
-              <a href={`/cluster/${param}/pods`}>
-                <button className="bg-teal-900 text-white rounded-sm p-4 hover:bg-teal-700 hover:text-gray-200 hover:shadow-lg transition duration-300 z-50">
-                  Click here for more Details
-                </button>
-              </a>
             </div>
 
             {/* Services */}
@@ -344,6 +328,26 @@ const dashboard = ({ config, backendURI, backendPasskey, params }) => {
                 </button>
               </a>
             </div>
+            {/* Namespace */}
+            <div className="flex flex-col gap-2 w-full justify-center items-center bg-[#8696c3] rounded-md shadow-md p-4">
+              <span className="text-2xl font-bold text-teal-900">
+                Namespaces
+              </span>
+              <div className="w-full flex flex-col justify-center items-center">
+                {result?.data?.namespace.map((namespace, index) => (
+                  <div key={index} className="text-gray-800 mb-2">
+                    <p>
+                      <span className="font-semibold">Namespace:</span>{" "}
+                      {namespace}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            
+            
+            
           </div>
         </div>
       ) : fetchstatus == 2 ? (
