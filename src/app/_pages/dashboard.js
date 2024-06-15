@@ -271,6 +271,29 @@ const dashboard = ({ config, backendURI, backendPasskey, params }) => {
                 ]}
               />
             </div>
+            {/* Services */}
+            <div className="flex flex-col gap-4 w-full justify-center items-center bg-[#8696c3] rounded-md shadow-md p-4">
+              <span className="text-2xl font-bold text-teal-900">Services</span>
+
+              {result?.data?.services && (
+                <div className="text-gray-800 mb-2 flex flex-col gap-2 justify-center items-start">
+                  {Object.entries(result.data.services)
+                    .slice(0, 5)
+                    .map(([serviceName, serviceInfo], index) => (
+                      <p key={index}>
+                        <span className="font-semibold">{serviceName}:</span>{" "}
+                        {serviceInfo}
+                      </p>
+                    ))}
+                </div>
+              )}
+
+              <a href={`/cluster/${param}/services`}>
+                <button className="bg-teal-900 text-white rounded-sm p-4 hover:bg-teal-700 hover:text-gray-200 hover:shadow-lg transition duration-300">
+                  Explore more Services
+                </button>
+              </a>
+            </div>
             {/* events */}
             <div className="flex flex-col gap-2 w-full justify-center items-center bg-[#8696c3] rounded-md shadow-md p-4">
               <span className="text-2xl font-bold text-teal-900">Events</span>
@@ -305,29 +328,7 @@ const dashboard = ({ config, backendURI, backendPasskey, params }) => {
               />
             </div>
 
-            {/* Services */}
-            <div className="flex flex-col gap-4 w-full justify-center items-center bg-[#8696c3] rounded-md shadow-md p-4">
-              <span className="text-2xl font-bold text-teal-900">Services</span>
-
-              {result?.data?.services && (
-                <div className="text-gray-800 mb-2 flex flex-col gap-2 justify-center items-start">
-                  {Object.entries(result.data.services)
-                    .slice(0, 5)
-                    .map(([serviceName, serviceInfo], index) => (
-                      <p key={index}>
-                        <span className="font-semibold">{serviceName}:</span>{" "}
-                        {serviceInfo}
-                      </p>
-                    ))}
-                </div>
-              )}
-
-              <a href={`/cluster/${param}/services`}>
-                <button className="bg-teal-900 text-white rounded-sm p-4 hover:bg-teal-700 hover:text-gray-200 hover:shadow-lg transition duration-300">
-                  Explore more Services
-                </button>
-              </a>
-            </div>
+            
             {/* Namespace */}
             <div className="flex flex-col gap-2 w-full justify-center items-center bg-[#8696c3] rounded-md shadow-md p-4">
               <span className="text-2xl font-bold text-teal-900">
