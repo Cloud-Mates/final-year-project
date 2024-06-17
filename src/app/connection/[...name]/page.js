@@ -54,21 +54,26 @@ const page = ({ params }) => {
                         yaml.loadAll(decryptedData?.kubernetes?.configs, async function (data) {
                             if (data) {
                                 if (typeof data == "object") {
-                                    const testKubernetes = await fetch(
-                                        `${decryptedData?.backend?.uri}/api/k8s/test`,
-                                        {
-                                            method: "POST",
-                                            body: JSON.stringify(data),
-                                            headers: { "Content-Type": "application/json", passkey: decryptedData?.backend?.passkey },
-                                        },
-                                        { cache: "no-store" }
-                                    );
+                                    try {
+                                        const testKubernetes = await fetch(
+                                            `${decryptedData?.backend?.uri}/api/k8s/test`,
+                                            {
+                                                method: "POST",
+                                                body: JSON.stringify(data),
+                                                headers: { "Content-Type": "application/json", passkey: decryptedData?.backend?.passkey },
+                                            },
+                                            { cache: "no-store" }
+                                        );
 
-                                    if (testKubernetes?.status == 200) {
-                                        setk8sConnIndicator(1);
-                                    } else {
+                                        if (testKubernetes?.status == 200) {
+                                            setk8sConnIndicator(1);
+                                        } else {
+                                            setk8sConnIndicator(2);
+                                        }
+                                    } catch (error) {
                                         setk8sConnIndicator(2);
                                     }
+
                                 } else {
                                     setk8sConnIndicator(2);
                                 }

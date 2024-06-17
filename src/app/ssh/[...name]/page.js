@@ -103,7 +103,7 @@ const TerminalController = ({ params }) => {
   }
 
   return (
-    <div className="container">
+    <div className="container max-md:px-2">
       <br />
       <div>
         {/* {configSSH?.host}:{configSSH?.port}@{configSSH?.username} <br /> */}
